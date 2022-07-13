@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Collide.wav-4d5d49b551407784face83e157888894.sample"
+
+[deps]
+
+source_file="res://Collide.wav"
+dest_files=[ "res://.import/Collide.wav-4d5d49b551407784face83e157888894.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

@@ -1,0 +1,75 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Tile.tscn" type="PackedScene" id=2]
+[ext_resource path="res://ParallaxBackground.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scripts/d88457e59e1503b.png" type="Texture" id=4]
+[ext_resource path="res://Scripts/MainScene.gd" type="Script" id=5]
+[ext_resource path="res://Scripts/Label.gd" type="Script" id=6]
+[ext_resource path="res://Scripts/Timer.gd" type="Script" id=7]
+[ext_resource path="res://timer_o.gd" type="Script" id=8]
+[ext_resource path="res://Obstacle_workaround.gd" type="Script" id=9]
+[ext_resource path="res://1_Jump.wav" type="AudioStream" id=10]
+[ext_resource path="res://replaySprite.gd" type="Script" id=11]
+
+[sub_resource type="DynamicFontData" id=1]
+font_path = "res://Fonts/PressStart2P-Regular.ttf"
+
+[sub_resource type="DynamicFont" id=2]
+font_data = SubResource( 1 )
+
+[node name="MainScene" type="Node2D"]
+script = ExtResource( 5 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 81, 440 )
+
+[node name="timer_c" type="Timer" parent="Player"]
+wait_time = 4.0
+script = ExtResource( 7 )
+
+[node name="timer_o" type="Timer" parent="Player"]
+wait_time = 6.0
+script = ExtResource( 8 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Player"]
+stream = ExtResource( 10 )
+volume_db = -7.429
+
+[node name="ParallaxBackground" parent="." instance=ExtResource( 3 )]
+
+[node name="Tile2" parent="." instance=ExtResource( 2 )]
+position = Vector2( 0, 597 )
+
+[node name="Guitar_score" type="Label" parent="."]
+margin_left = 859.0
+margin_right = 1017.0
+margin_bottom = 106.0
+custom_colors/font_outline_modulate = Color( 0.0627451, 0.0235294, 0.0235294, 1 )
+custom_fonts/font = SubResource( 2 )
+align = 1
+valign = 1
+uppercase = true
+script = ExtResource( 6 )
+
+[node name="Obstacle_workaround" type="Node" parent="."]
+script = ExtResource( 9 )
+
+[node name="replaySprite" type="Sprite" parent="."]
+position = Vector2( 520, 330 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 4 )
+script = ExtResource( 11 )
+
+[node name="replay" type="Control" parent="replaySprite"]
+margin_left = -100.0
+margin_top = -100.0
+margin_right = 100.0
+margin_bottom = 90.0
+
+[connection signal="timeout" from="Player/timer_c" to="." method="_on_Timer_timeout"]
+[connection signal="timeout" from="Player/timer_c" to="Player/timer_c" method="_on_Timer_timeout"]
+[connection signal="timeout" from="Player/timer_o" to="Player/timer_o" method="_on_timer_o_timeout"]
+[connection signal="timeout" from="Player/timer_o" to="Obstacle_workaround" method="_on_timer_o_timeout"]
+[connection signal="gui_input" from="replaySprite/replay" to="." method="_on_replay_gui_input"]
+[connection signal="gui_input" from="replaySprite/replay" to="replaySprite" method="_on_replay_gui_input"]

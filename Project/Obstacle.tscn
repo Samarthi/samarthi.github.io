@@ -1,0 +1,47 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Obstacle_sprite/2.png" type="Texture" id=1]
+[ext_resource path="res://Obstacle_sprite/0.png" type="Texture" id=2]
+[ext_resource path="res://Obstacle_sprite/3.png" type="Texture" id=3]
+[ext_resource path="res://Obstacle_sprite/1.png" type="Texture" id=4]
+[ext_resource path="res://Obstacle.gd" type="Script" id=5]
+[ext_resource path="res://Collide.wav" type="AudioStream" id=6]
+[ext_resource path="res://AudioS.gd" type="Script" id=7]
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 48.3843
+height = 171.231
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 1 ), ExtResource( 3 ), ExtResource( 4 ) ],
+"loop": true,
+"name": "walk",
+"speed": 5.0
+} ]
+
+[node name="Obstacle" type="Node2D"]
+position = Vector2( 3000, 600 )
+scale = Vector2( 0.65, 0.65 )
+script = ExtResource( 5 )
+
+[node name="AS" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AS"]
+position = Vector2( -433, -238 )
+shape = SubResource( 2 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="AS"]
+frames = SubResource( 1 )
+animation = "walk"
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+volume_db = -7.429
+script = ExtResource( 7 )
+
+[connection signal="body_entered" from="AS" to="." method="_on_AS_body_entered"]
+[connection signal="body_entered" from="AS" to="AudioStreamPlayer" method="_on_AS_body_entered"]
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
